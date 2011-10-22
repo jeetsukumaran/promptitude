@@ -351,7 +351,7 @@ function promptitude() {
             shift 2
             ;;
         --status-color|--vcs-status-color|--git-status-color)
-            GIT_state_COLOR=$(_promptitude_get_color_code $(echo $2 | awk -F: '{print $1" "$2" "$3}'))
+            GIT_STATE_COLOR=$(_promptitude_get_color_code $(echo $2 | awk -F: '{print $1" "$2" "$3}'))
             if [[ $? != 0 ]]
             then
                 echo $GIT_STATE_COLOR
