@@ -304,9 +304,20 @@ function promptitude() {
     # local GIT_HEAD_COLOR=$(_promptitude_get_color_code darkgray)
     # local GIT_STATE_COLOR=$(_promptitude_get_color_code darkred)
 
+    # if environmental variable PROMPTITUDE_DEFAULT_COMMAND
+    # is given, add reset the positional arguments incorporating
+    # it.
+    if [ -n "$PROMPTITUDE_DEFAULT_COMMAND" ]
+    then
+        set $(echo "__NOOP__ $PROMPTITUDE_DEFAULT_COMMAND $@")
+    fi
+
     while [ -n "$1" ]
     do
         case $1 in
+        __NOOP__)
+            shift
+            ;;
         --show-shell-level)
             SHOW_SHELL_LEVEL=true
             shift
