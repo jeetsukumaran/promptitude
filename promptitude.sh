@@ -232,6 +232,7 @@ function _print_git_info {
     then
         GIT_STATE=""
     else
+        GIT_HEAD=$GIT_HEAD":"
         GIT_STATE=""
         if [[ "$STATUS" == *'Changes to be committed:'* ]]
         then
@@ -535,7 +536,8 @@ function promptitude() {
     if [[ $SHOW_GIT == true && $(which git 2> /dev/null) ]]
     then
         # PROMPTSTR="$PROMPTSTR\$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1/')\$(git rev-parse --short HEAD 2> /dev/null | sed -e 's/^/$PROMPT_COLOR$SEP$GIT_HEAD_COLOR/')\$(_print_git_state_flags 2> /dev/null | sed -e 's/^/$PROMPT_COLOR$SEP$GIT_STATE_COLOR/')$CLEAR"
-        PROMPTSTR="${PROMPTSTR}\$(_print_git_info | sed -e 's/^\(.*\)%%%%\(.*\)%%%%\(.*\)$/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1$PROMPT_COLOR$SEP$GIT_HEAD_COLOR\2$PROMPT_COLOR$SEP$GIT_STATE_COLOR\3/')"
+        # PROMPTSTR="${PROMPTSTR}\$(_print_git_info | sed -e 's/^\(.*\)%%%%\(.*\)%%%%\(.*\)$/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1$PROMPT_COLOR$SEP$GIT_HEAD_COLOR\2$PROMPT_COLOR$SEP$GIT_STATE_COLOR\3/')"
+        PROMPTSTR="${PROMPTSTR}\$(_print_git_info | sed -e 's/^\(.*\)%%%%\(.*\)%%%%\(.*\)$/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1$PROMPT_COLOR$SEP$GIT_HEAD_COLOR\2$GIT_STATE_COLOR\3/')"
     fi
 
     # final
