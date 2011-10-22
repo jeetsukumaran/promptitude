@@ -295,14 +295,14 @@ function promptitude() {
     local GIT_HEAD_COLOR=""
     local GIT_STATE_COLOR=""
 
-    local STY_COLOR=$(_promptitude_get_color_code white darkgray)
-    local SHLVL_COLOR=$(_promptitude_get_color_code white darkgray)
-    local PROMPT_COLOR=$(_promptitude_get_color_code darkcyan)
-    local USER_HOST_COLOR=$(_promptitude_get_color_code black darkcyan)
-    local DIR_COLOR=$(_promptitude_get_color_code darkcyan)
-    local GIT_BRANCH_COLOR=$(_promptitude_get_color_code darkgreen)
-    local GIT_HEAD_COLOR=$(_promptitude_get_color_code darkgray)
-    local GIT_STATE_COLOR=$(_promptitude_get_color_code darkred)
+    # local STY_COLOR=$(_promptitude_get_color_code white darkgray)
+    # local SHLVL_COLOR=$(_promptitude_get_color_code white darkgray)
+    # local PROMPT_COLOR=$(_promptitude_get_color_code darkcyan)
+    # local USER_HOST_COLOR=$(_promptitude_get_color_code black darkcyan)
+    # local DIR_COLOR=$(_promptitude_get_color_code darkcyan)
+    # local GIT_BRANCH_COLOR=$(_promptitude_get_color_code darkgreen)
+    # local GIT_HEAD_COLOR=$(_promptitude_get_color_code darkgray)
+    # local GIT_STATE_COLOR=$(_promptitude_get_color_code darkred)
 
     while [ -n $1 ]; do
         case $1 in
