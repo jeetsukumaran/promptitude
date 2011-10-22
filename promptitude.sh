@@ -230,7 +230,7 @@ function _print_git_info {
     GIT_HEAD="$(git rev-parse --short HEAD 2> /dev/null)"
     if [[ "$STATUS" == *'working directory clean'* ]]
     then
-        GIT_STATE="@@"
+        GIT_STATE=""
     else
         GIT_STATE=""
         if [[ "$STATUS" == *'Changes to be committed:'* ]]
