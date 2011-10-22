@@ -245,6 +245,15 @@ function promptitude() {
 
     # set up color codes
     local CLEAR=$(_promptitude_get_color_code clear)
+    local STY_COLOR=""
+    local SHLVL_COLOR=""
+    local PROMPT_COLOR=""
+    local USER_HOST_COLOR=""
+    local DIR_COLOR=""
+    local GIT_BRANCH_COLOR=""
+    local GIT_HEAD_COLOR=""
+    local GIT_STATE_COLOR=""
+
     # local STY_COLOR=$(_promptitude_get_color_code white darkgray)
     # local SHLVL_COLOR=$(_promptitude_get_color_code white darkgray)
     # local PROMPT_COLOR=$(_promptitude_get_color_code darkcyan)
