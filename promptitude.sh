@@ -230,7 +230,7 @@ function _print_git_info {
     GIT_HEAD="$(git rev-parse --short HEAD 2> /dev/null)"
     if [[ "$STATUS" == *'working directory clean'* ]]
     then
-        GIT_STATE=""
+        GIT_STATE="@@"
     else
         GIT_STATE=""
         if [[ "$STATUS" == *'Changes to be committed:'* ]]
@@ -245,7 +245,6 @@ function _print_git_info {
         then
             GIT_STATE=$GIT_STATE'+U' # Working tree has untracked files
         fi
-        GIT_STATE=$GIT_STATE''
     fi
     echo "$GIT_BRANCH%%%%$GIT_HEAD%%%%$GIT_STATE"
 }
