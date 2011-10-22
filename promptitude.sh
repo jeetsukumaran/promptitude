@@ -93,7 +93,7 @@ function _promptitude_get_color_code() {
         white)
             COLOR_CODE=$COLOR_CODE"1;37"
             ;;
-            *)
+        *)
             echo "invalid foreground color: '$1'"
             return -1
             ;;
@@ -195,7 +195,7 @@ function _promptitude_get_color_code() {
             echo '\[\033['$COLOR_CODE'm\]'
             return
             ;;
-            *)
+        *)
             echo "invalid background color: '$2'"
             return -1
             ;;
@@ -212,7 +212,7 @@ function _promptitude_get_color_code() {
         reverse)
             COLOR_CODE="7;"$COLOR_CODE
             ;;
-            *)
+        *)
             echo "invalid attribute: '$3'"
             return -1
             ;;
@@ -304,7 +304,8 @@ function promptitude() {
     # local GIT_HEAD_COLOR=$(_promptitude_get_color_code darkgray)
     # local GIT_STATE_COLOR=$(_promptitude_get_color_code darkred)
 
-    while [ -n $1 ]; do
+    while [ -n "$1" ]
+    do
         case $1 in
         --show-shell-level)
             SHOW_SHELL_LEVEL=true
