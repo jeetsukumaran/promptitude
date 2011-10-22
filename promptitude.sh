@@ -214,6 +214,42 @@ function _promptitude_get_color_code() {
     echo '\[\033['$COLOR_CODE'm\]'
 }
 
+function _print_git_info {
+    GIT_BRANCH=""
+    GIT_HEAD=""
+    GIT_STATE=""
+    GIT_LEADER=""
+    local STATUS
+    STATUS=$(git status 2> /dev/null)
+    if [[ -z $STATUS ]]
+    then
+        return
+    fi
+    GIT_LEADER=":"
+    GIT_BRANCH="$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
+    GIT_HEAD="$(git rev-parse --short HEAD 2> /dev/null)"
+    if [[ "$STATUS" == *'working directory clean'* ]]
+    then
+        GIT_STATE=""
+    else
+        GIT_STATE=""
+        if [[ "$STATUS" == *'Changes to be committed:'* ]]
+        then
+            GIT_STATE=$GIT_STATE'+I' # Index has files staged for commit
+        fi
+        if [[ "$STATUS" == *'Changed but not updated:'* || "$STATUS" == *'Changes not staged for commit'* ]]
+        then
+            GIT_STATE=$GIT_STATE"+M" # Working tree has files modified but unstaged
+        fi
+        if [[ "$STATUS" == *'Untracked files:'* ]]
+        then
+            GIT_STATE=$GIT_STATE'+U' # Working tree has untracked files
+        fi
+        GIT_STATE=$GIT_STATE''
+    fi
+    echo "$GIT_BRANCH%%%%$GIT_HEAD%%%%$GIT_STATE"
+}
+
 function _print_git_state_flags() {
     local state_flags=""
     if [[ $(git diff-index --quiet --cached HEAD) ]]
@@ -254,14 +290,14 @@ function promptitude() {
     local GIT_HEAD_COLOR=""
     local GIT_STATE_COLOR=""
 
-    # local STY_COLOR=$(_promptitude_get_color_code white darkgray)
-    # local SHLVL_COLOR=$(_promptitude_get_color_code white darkgray)
-    # local PROMPT_COLOR=$(_promptitude_get_color_code darkcyan)
-    # local USER_HOST_COLOR=$(_promptitude_get_color_code black darkcyan)
-    # local DIR_COLOR=$(_promptitude_get_color_code darkcyan)
-    # local GIT_BRANCH_COLOR=$(_promptitude_get_color_code darkgreen)
-    # local GIT_HEAD_COLOR=$(_promptitude_get_color_code darkgray)
-    # local GIT_STATE_COLOR=$(_promptitude_get_color_code darkred)
+    local STY_COLOR=$(_promptitude_get_color_code white darkgray)
+    local SHLVL_COLOR=$(_promptitude_get_color_code white darkgray)
+    local PROMPT_COLOR=$(_promptitude_get_color_code darkcyan)
+    local USER_HOST_COLOR=$(_promptitude_get_color_code black darkcyan)
+    local DIR_COLOR=$(_promptitude_get_color_code darkcyan)
+    local GIT_BRANCH_COLOR=$(_promptitude_get_color_code darkgreen)
+    local GIT_HEAD_COLOR=$(_promptitude_get_color_code darkgray)
+    local GIT_STATE_COLOR=$(_promptitude_get_color_code darkred)
 
     while [ -n $1 ]; do
         case $1 in
@@ -499,7 +535,8 @@ function promptitude() {
     # Git
     if [[ $SHOW_GIT == true && $(which git 2> /dev/null) ]]
     then
-        PROMPTSTR="$PROMPTSTR\$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1/')\$(git rev-parse --short HEAD 2> /dev/null | sed -e 's/^/$PROMPT_COLOR$SEP$GIT_HEAD_COLOR/')\$(_print_git_state_flags 2> /dev/null | sed -e 's/^/$PROMPT_COLOR$SEP$GIT_STATE_COLOR/')$CLEAR"
+        # PROMPTSTR="$PROMPTSTR\$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1/')\$(git rev-parse --short HEAD 2> /dev/null | sed -e 's/^/$PROMPT_COLOR$SEP$GIT_HEAD_COLOR/')\$(_print_git_state_flags 2> /dev/null | sed -e 's/^/$PROMPT_COLOR$SEP$GIT_STATE_COLOR/')$CLEAR"
+        PROMPTSTR="${PROMPTSTR}\$(_print_git_info | sed -e 's/^\(.*\)%%%%\(.*\)%%%%\(.*\)$/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1$PROMPT_COLOR$SEP$GIT_HEAD_COLOR\2$PROMPT_COLOR$SEP$GIT_STATE_COLOR\3/')"
     fi
 
     # final
