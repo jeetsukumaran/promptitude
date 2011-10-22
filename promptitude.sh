@@ -42,6 +42,9 @@ function _promptitude_get_color_code() {
         lightgrey)
             COLOR_CODE=$COLOR_CODE"0;37"
             ;;
+        grey)
+            COLOR_CODE=$COLOR_CODE"0;37"
+            ;;
         gray)
             COLOR_CODE=$COLOR_CODE"0;37"
             ;;
@@ -129,6 +132,9 @@ function _promptitude_get_color_code() {
             COLOR_CODE=$COLOR_CODE";47"
             ;;
         lightgrey)
+            COLOR_CODE=$COLOR_CODE";47"
+            ;;
+        grey)
             COLOR_CODE=$COLOR_CODE";47"
             ;;
         gray)
