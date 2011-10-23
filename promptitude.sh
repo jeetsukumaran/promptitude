@@ -1,5 +1,13 @@
 #! /bin/bash
 
+# Configure/customize your BASH prompt.
+#
+# Source this file into your BASH session (". promptitude.sh") and then
+# run "promptitude --help" for more information.
+#
+# Default command-line options can be set using the environmental variable
+# $PROMPTITUDE_DEFAULT_COMMAND.
+
 function _promptitude_get_color_code() {
     if [[ -z $1 ]]
     then
