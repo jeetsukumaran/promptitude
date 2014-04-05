@@ -6,10 +6,33 @@
 # Configure/customize your BASH prompt.
 #
 # Source this file into your BASH session (". promptitude.sh") and then
-# run "promptitude --help" for more information.
+# run:
+#
+#   $ promptitude --help
+#
+# for more information.
+#
+# Example usage:
+#
+#   $ promptitude --no-user-host \
+#      --prompt-color darkcyan  \
+#      --user-host-color black:darkcyan \
+#      --venv-color black:green  \
+#      --dir-color darkcyan \
+#      --branch-color darkgreen \
+#      --head-color darkgray  \
+#      --status-color darkred \
+#
 #
 # Default command-line options can be set using the environmental variable
 # $PROMPTITUDE_DEFAULT_COMMAND.
+#
+# For example, the following line your "~/.bashrc":
+#
+#       export PROMPTITUDE_DEFAULT_COMMAND="--no-user-host --prompt-color darkcyan --user-host-color black:darkcyan --venv-color black:green --dir-color darkcyan --branch-color darkgreen --head-color darkgray --status-color darkred"
+#
+# will pass the listed options to the promptitude command the next time it is
+# invoked.
 #
 # Copyright (c) 2011, Jeet Sukumaran. All rights reserved.
 #
@@ -309,10 +332,36 @@ function _print_git_state_flags() {
     fi
 }
 
+function _print_virtualenv_long_info() {
+    local venv=""
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "[venv:$venv]"
+}
+
+function _print_virtualenv_short_info() {
+    local venv=""
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "[venv:$venv]"
+}
+
 function promptitude() {
 
     # display indicators
+    local ADD_NEWLINE=true
     local SHOW_SHELL_LEVEL=true
+    local SHOW_VENV=1
     local SHOW_USERHOST=true
     local SHOW_DIRECTORY=1
     local SHOW_GIT=true
@@ -321,6 +370,7 @@ function promptitude() {
     # set up color codes
     local CLEAR=$(_promptitude_get_color_code clear)
     local STY_COLOR=""
+    local VENV_COLOR=""
     local SHLVL_COLOR=""
     local PROMPT_COLOR=""
     local USER_HOST_COLOR=""
@@ -352,12 +402,32 @@ function promptitude() {
         __NOOP__)
             shift
             ;;
+        --add-newline)
+            ADD_NEWLINE=true
+            shift
+            ;;
+        --no-newline)
+            ADD_NEWLINE=false
+            shift
+            ;;
         --show-shell-level)
             SHOW_SHELL_LEVEL=true
             shift
             ;;
         --no-shell-level)
             SHOW_SHELL_LEVEL=false
+            shift
+            ;;
+        --show-long-venv)
+            SHOW_VENV=2
+            shift
+            ;;
+        --show-short-venv)
+            SHOW_VENV=1
+            shift
+            ;;
+        --no-venv)
+            SHOW_VENV=0
             shift
             ;;
         --show-user-host)
@@ -397,6 +467,15 @@ function promptitude() {
             if [[ $? != 0 ]]
             then
                 echo $PROMPT_COLOR
+                return -1
+            fi
+            shift 2
+            ;;
+        --venv-color)
+            VENV_COLOR=$(_promptitude_get_color_code $(echo $2 | awk -F: '{print $1" "$2" "$3}'))
+            if [[ $? != 0 ]]
+            then
+                echo $VENV_COLOR
                 return -1
             fi
             shift 2
@@ -452,6 +531,8 @@ function promptitude() {
             echo "Configure BASH prompt"
             echo " "
             echo "Information Options:"
+            echo "  --no-newline              ... do not add a newline before prompt"
+            echo "  --add-newline             ... add a newline before prompt"
             echo "  --no-shell-level          ... do not show shell nesting level"
             echo "  --show-shell-level        ... show shell nesting level"
             echo "  --no-user-host            ... do not show user and hostname"
@@ -459,6 +540,9 @@ function promptitude() {
             echo "  --no-dir                  ... do not show current directory"
             echo "  --show-short-dir          ... show current directory (short path)"
             echo "  --show-long-dir           ... show current directory (full path)"
+            echo "  --no-venv                 ... do not show Python virtual environment status"
+            echo "  --show-short-venv         ... show path to Python virtual environment (short path)"
+            echo "  --show-long-venv          ... show path to Python virtual environment (long path)"
             echo "  --no-git                  ... do not show git branch, head and status"
             echo "  --show-git                ... show git branch, head and status"
             echo "  --none                    ... minimal prompt (no info)"
@@ -467,6 +551,7 @@ function promptitude() {
             echo "  --prompt-color <COLOR>    ... base prompt color"
             echo "  --user-host-color <COLOR> ... user and hostname color"
             echo "  --dir-color <COLOR>       ... directory color"
+            echo "  --venv-color <COLOR>      ... Python virtual environment color"
             echo "  --branch-color <COLOR>    ... branch name color"
             echo "  --head-color <COLOR>      ... current revision/commit ID color"
             echo "  --status-color <COLOR>    ... repository status color"
@@ -507,6 +592,7 @@ function promptitude() {
             echo "    promptitude --prompt-color darkcyan \\"
             echo "                --user-host-color black:darkcyan \\"
             echo "                --dir-color darkcyan \\"
+            echo "                --venv-color black:green \\"
             echo "                --branch-color darkgreen \\"
             echo "                --head-color darkgray \\"
             echo "                --status-color darkred"
@@ -556,6 +642,19 @@ function promptitude() {
         fi
     fi
 
+    # indicate virtual environment
+    if [[ $SHOW_VENV == 2 ]]
+    then
+        local VENVTAG="$VENV_COLOR\$(_print_virtualenv_long_info)$CLEAR"
+        export VIRTUAL_ENV_DISABLE_PROMPT=1
+    elif  [[ $SHOW_VENV == 1 ]]
+    then
+        local VENVTAG="$VENV_COLOR\$(_print_virtualenv_short_info)$CLEAR"
+        export VIRTUAL_ENV_DISABLE_PROMPT=1
+    else
+        export VIRTUAL_ENV_DISABLE_PROMPT=0
+    fi
+
     # Set user@host.
     if [[ $SHOW_USERHOST == true ]]
     then
@@ -592,12 +691,20 @@ function promptitude() {
         PROMPTSTR="${PROMPTSTR}\$(_print_git_info | sed -e 's/^\(.*\)%%%%\(.*\)%%%%\(:\)*\(.*\)$/$PROMPT_COLOR$SEP$GIT_BRANCH_COLOR\1$PROMPT_COLOR$SEP$GIT_HEAD_COLOR\2$PROMPT_COLOR\3$GIT_STATE_COLOR\4/')"
     fi
 
+    # add a newline
+    if [[ $ADD_NEWLINE == true ]]
+    then
+        local PS_NEWLINE="\n"
+    else
+        local PS_NEWLINE=""
+    fi
+
     # final
     if [[ -z $PROMPTSTR ]]
     then
-        PROMPTSTR="\$ "
+        PROMPTSTR="$PS_NEWLINE\$ "
     else
-        PROMPTSTR="\n$CLEAR$SHLVLTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]$WRAP$WHICHPYTHON$PROMPT_COLOR\$$CLEAR "
+        PROMPTSTR="${PS_NEWLINE}$CLEAR$SHLVLTAG$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]$WRAP$WHICHPYTHON$PROMPT_COLOR\$$CLEAR "
     fi
 
     # Set.
