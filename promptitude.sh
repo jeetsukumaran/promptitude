@@ -359,7 +359,8 @@ function _print_virtualenv_short_info() {
 function promptitude() {
 
     # display indicators
-    local ADD_NEWLINE=true
+    local PREFIX_NEWLINE=true
+    local POSTFIX_NEWLINE=false
     local SHOW_SHELL_LEVEL=true
     local SHOW_VENV=1
     local SHOW_USERHOST=true
@@ -402,12 +403,20 @@ function promptitude() {
         __NOOP__)
             shift
             ;;
-        --add-newline)
-            ADD_NEWLINE=true
+        --prefix-newline)
+            prefix_NEWLINE=true
             shift
             ;;
-        --no-newline)
-            ADD_NEWLINE=false
+        --no-prefix-newline)
+            PREFIX_NEWLINE=false
+            shift
+            ;;
+        --postfix-newline)
+            POSTFIX_NEWLINE=true
+            shift
+            ;;
+        --no-postfix-newline)
+            POSTFIX_NEWLINE=false
             shift
             ;;
         --show-shell-level)
@@ -531,8 +540,10 @@ function promptitude() {
             echo "Configure BASH prompt"
             echo " "
             echo "Information Options:"
-            echo "  --no-newline              ... do not add a newline before prompt"
-            echo "  --add-newline             ... add a newline before prompt"
+            echo "  --no-prefix-newline       ... do not add a newline before prompt"
+            echo "  --prefix-newline          ... add a newline before prompt"
+            echo "  --no-postfix-newline      ... do not add a newline after prompt"
+            echo "  --postfix-newline         ... add a newline after prompt"
             echo "  --no-shell-level          ... do not show shell nesting level"
             echo "  --show-shell-level        ... show shell nesting level"
             echo "  --no-user-host            ... do not show user and hostname"
@@ -692,19 +703,27 @@ function promptitude() {
     fi
 
     # add a newline
-    if [[ $ADD_NEWLINE == true ]]
+    if [[ $PREFIX_NEWLINE == true ]]
     then
-        local PS_NEWLINE="\n"
+        local PREFIX_NEWLINE="\n"
     else
-        local PS_NEWLINE=""
+        local PREFIX_NEWLINE=""
+    fi
+
+    # add a newline
+    if [[ $POSTFIX_NEWLINE == true ]]
+    then
+        local POSTFIX_NEWLINE="\n"
+    else
+        local POSTFIX_NEWLINE=""
     fi
 
     # final
     if [[ -z $PROMPTSTR ]]
     then
-        PROMPTSTR="$PS_NEWLINE\$ "
+        PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PS_NEWLINE}$CLEAR$SHLVLTAG$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]$WRAP$WHICHPYTHON$PROMPT_COLOR\$$CLEAR "
+        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
     fi
 
     # Set.
