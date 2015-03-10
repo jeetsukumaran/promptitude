@@ -7,6 +7,19 @@ Sha-dazzle up or Sha-dazzle down your prompt, dynamically!
 
 Add color, Git status, shell-level, Python environment info, etc., as needed and when needed.
 
+## Installation
+
+Source the file `promptitude.sh` in your `~/.bashrc`.
+
+For e.g., if you have cloned this repository in `~/src`:
+
+    $ cd ~/src
+    $ git clone https://github.com/jeetsukumaran/promptitude.git
+
+then add the following line to your `~/.bashrc`:
+
+    source ~/src/promptitude/promptitude.sh
+
 ## All Options
 
 ~~~
