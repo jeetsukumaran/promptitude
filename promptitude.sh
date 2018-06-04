@@ -647,7 +647,13 @@ function promptitude() {
         elif [[ $SHLVL > 1 ]] # else if in any other subshell
         then
             local SHPARENT=$(ps -o command -p $PPID | tail -1)
-            local SHLVLTAG="$SHLVL_COLOR[$SHPARENT:$SHELL_NESTING_LEVEL]$CLEAR"
+            if [[ $SHPARENT == ?vim* ]]
+            then
+                # only minimally report the shell level if inside a gvim/mvim split
+                local SHLVLTAG="$SHLVL_COLOR*$CLEAR"
+            else
+                local SHLVLTAG="$SHLVL_COLOR[$SHPARENT:$SHELL_NESTING_LEVEL]$CLEAR"
+            fi
         else # not in a subshell
             local SHLVLTAG=""
         fi
