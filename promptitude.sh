@@ -72,83 +72,116 @@ function _promptitude_get_color_code() {
         black)
             COLOR_CODE=$COLOR_CODE"0;30"
             ;;
-        darkred)
+        red)
             COLOR_CODE=$COLOR_CODE"0;31"
             ;;
-        darkgreen)
+        green)
             COLOR_CODE=$COLOR_CODE"0;32"
             ;;
         brown)
             COLOR_CODE=$COLOR_CODE"0;33"
             ;;
-        darkyellow)
+        orange)
             COLOR_CODE=$COLOR_CODE"0;33"
             ;;
-        darkblue)
+        blue)
             COLOR_CODE=$COLOR_CODE"0;34"
             ;;
-        darkmagenta)
+        purple)
             COLOR_CODE=$COLOR_CODE"0;35"
             ;;
-        darkcyan)
+        magenta)
+            COLOR_CODE=$COLOR_CODE"0;35"
+            ;;
+        cyan)
             COLOR_CODE=$COLOR_CODE"0;36"
-            ;;
-        lightgray)
-            COLOR_CODE=$COLOR_CODE"0;37"
-            ;;
-        lightgrey)
-            COLOR_CODE=$COLOR_CODE"0;37"
             ;;
         grey)
             COLOR_CODE=$COLOR_CODE"0;37"
             ;;
-        gray)
-            COLOR_CODE=$COLOR_CODE"0;37"
-            ;;
-        lightgrey)
-            COLOR_CODE=$COLOR_CODE"0;37"
-            ;;
-        darkgray)
-            COLOR_CODE=$COLOR_CODE"1;30"
-            ;;
         darkgrey)
-            COLOR_CODE=$COLOR_CODE"1;30"
+            COLOR_CODE=$COLOR_CODE"0;90"
             ;;
         lightred)
-            COLOR_CODE=$COLOR_CODE"1;31"
-            ;;
-        red)
-            COLOR_CODE=$COLOR_CODE"1;31"
+            COLOR_CODE=$COLOR_CODE"0;91"
             ;;
         lightgreen)
-            COLOR_CODE=$COLOR_CODE"1;32"
-            ;;
-        green)
-            COLOR_CODE=$COLOR_CODE"1;32"
+            COLOR_CODE=$COLOR_CODE"0;92"
             ;;
         yellow)
-            COLOR_CODE=$COLOR_CODE"1;33"
-            ;;
-        lightyellow)
-            COLOR_CODE=$COLOR_CODE"1;33"
+            COLOR_CODE=$COLOR_CODE"0;93"
             ;;
         lightblue)
-            COLOR_CODE=$COLOR_CODE"1;34"
+            COLOR_CODE=$COLOR_CODE"0;94"
             ;;
-        blue)
-            COLOR_CODE=$COLOR_CODE"1;34"
+        lightpurple)
+            COLOR_CODE=$COLOR_CODE"0;95"
             ;;
         lightmagenta)
-            COLOR_CODE=$COLOR_CODE"1;35"
+            COLOR_CODE=$COLOR_CODE"0;95"
+            ;;
+        turquoise)
+            COLOR_CODE=$COLOR_CODE"0;96"
             ;;
         lightcyan)
+            COLOR_CODE=$COLOR_CODE"0;96"
+            ;;
+        boldblack)
+            COLOR_CODE=$COLOR_CODE"1;30"
+            ;;
+        boldred)
+            COLOR_CODE=$COLOR_CODE"1;31"
+            ;;
+        boldgreen)
+            COLOR_CODE=$COLOR_CODE"1;32"
+            ;;
+        boldbrown)
+            COLOR_CODE=$COLOR_CODE"1;33"
+            ;;
+        boldorange)
+            COLOR_CODE=$COLOR_CODE"1;33"
+            ;;
+        boldblue)
+            COLOR_CODE=$COLOR_CODE"1;34"
+            ;;
+        boldpurple)
+            COLOR_CODE=$COLOR_CODE"1;35"
+            ;;
+        boldmagenta)
+            COLOR_CODE=$COLOR_CODE"1;35"
+            ;;
+        boldcyan)
             COLOR_CODE=$COLOR_CODE"1;36"
             ;;
-        cyan)
-            COLOR_CODE=$COLOR_CODE"1;36"
-            ;;
-        white)
+        boldgrey)
             COLOR_CODE=$COLOR_CODE"1;37"
+            ;;
+        bolddarkgrey)
+            COLOR_CODE=$COLOR_CODE"1;90"
+            ;;
+        boldlightred)
+            COLOR_CODE=$COLOR_CODE"1;91"
+            ;;
+        boldlightgreen)
+            COLOR_CODE=$COLOR_CODE"1;92"
+            ;;
+        boldyellow)
+            COLOR_CODE=$COLOR_CODE"1;93"
+            ;;
+        boldlightblue)
+            COLOR_CODE=$COLOR_CODE"1;94"
+            ;;
+        boldlightpurple)
+            COLOR_CODE=$COLOR_CODE"1;95"
+            ;;
+        boldlightmagenta)
+            COLOR_CODE=$COLOR_CODE"1;95"
+            ;;
+        boldturquoise)
+            COLOR_CODE=$COLOR_CODE"1;96"
+            ;;
+        boldlightcyan)
+            COLOR_CODE=$COLOR_CODE"1;96"
             ;;
         *)
             echo "invalid foreground color: '$1'"
@@ -164,44 +197,32 @@ function _promptitude_get_color_code() {
         black)
             COLOR_CODE=$COLOR_CODE";40"
             ;;
-        darkred)
+        red)
             COLOR_CODE=$COLOR_CODE";41"
             ;;
-        darkgreen)
+        green)
             COLOR_CODE=$COLOR_CODE";42"
             ;;
         brown)
             COLOR_CODE=$COLOR_CODE";43"
             ;;
-        darkyellow)
+        orange)
             COLOR_CODE=$COLOR_CODE";43"
             ;;
-        darkblue)
+        blue)
             COLOR_CODE=$COLOR_CODE";44"
             ;;
-        darkmagenta)
+        purple)
             COLOR_CODE=$COLOR_CODE";45"
             ;;
-        darkcyan)
+        magenta)
+            COLOR_CODE=$COLOR_CODE";45"
+            ;;
+        cyan)
             COLOR_CODE=$COLOR_CODE";46"
-            ;;
-        lightgray)
-            COLOR_CODE=$COLOR_CODE";47"
-            ;;
-        lightgrey)
-            COLOR_CODE=$COLOR_CODE";47"
             ;;
         grey)
             COLOR_CODE=$COLOR_CODE";47"
-            ;;
-        gray)
-            COLOR_CODE=$COLOR_CODE";47"
-            ;;
-        lightgrey)
-            COLOR_CODE=$COLOR_CODE";47"
-            ;;
-        darkgray)
-            COLOR_CODE=$COLOR_CODE";100"
             ;;
         darkgrey)
             COLOR_CODE=$COLOR_CODE";100"
@@ -209,34 +230,28 @@ function _promptitude_get_color_code() {
         lightred)
             COLOR_CODE=$COLOR_CODE";101"
             ;;
-        red)
-            COLOR_CODE=$COLOR_CODE";101"
-            ;;
         lightgreen)
-            COLOR_CODE=$COLOR_CODE";102"
-            ;;
-        green)
             COLOR_CODE=$COLOR_CODE";102"
             ;;
         yellow)
             COLOR_CODE=$COLOR_CODE";103"
             ;;
-        lightyellow)
-            COLOR_CODE=$COLOR_CODE";103"
+        lightblue)
+            COLOR_CODE=$COLOR_CODE";104"
             ;;
         lightblue)
             COLOR_CODE=$COLOR_CODE";104"
             ;;
-        blue)
-            COLOR_CODE=$COLOR_CODE";104"
+        lightpurple)
+            COLOR_CODE=$COLOR_CODE";105"
             ;;
         lightmagenta)
             COLOR_CODE=$COLOR_CODE";105"
             ;;
-        lightcyan)
+        turquoise)
             COLOR_CODE=$COLOR_CODE";106"
             ;;
-        cyan)
+        lightcyan)
             COLOR_CODE=$COLOR_CODE";106"
             ;;
         white)
@@ -572,18 +587,37 @@ function promptitude() {
         --help-colors)
             echo "Colors are specified with the following syntax: "
             echo " "
-            echo "   <foreground COLOR>[:background COLOR][:ATTRIBUTE] "
+            echo "   <foreground FGCOLOR>[:background BGCOLOR][:ATTRIBUTE] "
             echo " "
-            echo "Where COLOR can be one of: "
+            echo "Where FGCOLOR can be one of: "
             echo " "
-            echo "   - black           - grey"
-            echo "   - darkred         - red"
-            echo "   - darkgreen       - green"
-            echo "   - darkyellow      - yellow"
-            echo "   - darkblue        - blue"
-            echo "   - darkmagenta     - magenta"
-            echo "   - darkcyan        - cyan"
-            echo "   - darkgrey        - white"
+            echo "   - black            - boldblack"
+            echo "   - red              - boldred"
+            echo "   - green            - boldgreen"
+            echo "   - orange           - boldorange"
+            echo "   - blue             - boldblue"
+            echo "   - purple           - boldpurpl"
+            echo "   - cyan             - boldcyan"
+            echo "   - grey             - boldgrey"
+            echo "   - darkgrey         - bolddarkgrey"
+            echo "   - lightred         - boldlightred"
+            echo "   - lightgreen       - boldlightgreen"
+            echo "   - yellow           - boldyellow"
+            echo "   - lightblue        - boldlightblue"
+            echo "   - lightpurple      - boldlightpurple"
+            echo "   - turquoise        - boldturquoise"
+            echo "   - white"
+            echo " "
+            echo "And BGCOLOR can be one of: "
+            echo " "
+            echo "   - black            - darkgrey"
+            echo "   - red              - lightred"
+            echo "   - green            - lightgreen"
+            echo "   - orange           - yellow"
+            echo "   - blue             - lightblue"
+            echo "   - purple           - lightpurple"
+            echo "   - cyan             - turquoise"
+            echo "   - grey             - white"
             echo " "
             echo "And ATTRIBUTE can be one of: "
             echo " "
@@ -592,21 +626,21 @@ function promptitude() {
             echo "Examples: "
             echo
             echo "    --prompt-color blue                     [blue on normal background]"
-            echo "    --user-host-color darkgreen:white       [dark green on white background]"
+            echo "    --user-host-color green:white           [dark green on white background]"
             echo "    --dir-color blue:underline              [underlined blue on normal background]"
             echo "    --branch-color cyan:black:underline     [underlined cyan on black background]"
-            echo "    --status-color white:darkred            [white on dark red background]"
-            echo "    --dir-color darkblue:white              [dark blue on white background]"
+            echo "    --status-color white:red                [white on dark red background]"
+            echo "    --dir-color blue:white                  [dark blue on white background]"
             echo
             echo "In use: "
             echo " "
-            echo "    promptitude --prompt-color darkcyan \\"
-            echo "                --user-host-color black:darkcyan \\"
-            echo "                --dir-color darkcyan \\"
+            echo "    promptitude --prompt-color cyan \\"
+            echo "                --user-host-color black:cyan \\"
+            echo "                --dir-color cyan \\"
             echo "                --venv-color black:green \\"
-            echo "                --branch-color darkgreen \\"
-            echo "                --head-color darkgray \\"
-            echo "                --status-color darkred"
+            echo "                --branch-color green \\"
+            echo "                --head-color gray \\"
+            echo "                --status-color red"
             return
             ;;
         *)

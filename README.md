@@ -62,13 +62,13 @@ Color Options (see '--help-colors' for how to specify colors):
 (Note that the colors are not shown in this document; but like that extra-cheese on your online pizza order, it is going to be there when it shows up at your door!)
 ~~~
 $ promptitude --no-user-host \
-      --prompt-color darkcyan  \
-      --user-host-color black:darkcyan \
+      --prompt-color cyan  \
+      --user-host-color black:cyan \
       --venv-color black:green  \
-      --dir-color darkcyan \
-      --branch-color darkgreen \
-      --head-color darkgray  \
-      --status-color darkred \
+      --dir-color cyan \
+      --branch-color green \
+      --head-color gray  \
+      --status-color red \
 
 [Syrupy:master:911f6d8]$ promptitude --no-git
 
@@ -86,7 +86,7 @@ Default command-line options can be set using the environmental variable `$PROMP
 
 For example, the following line your "~/.bashrc":
 ~~~
-export PROMPTITUDE_DEFAULT_COMMAND="--no-user-host --prompt-color darkcyan --user-host-color black:darkcyan --venv-color black:green --dir-color darkcyan --branch-color darkgreen --head-color darkgray --status-color darkred"
+export PROMPTITUDE_DEFAULT_COMMAND="--no-user-host --prompt-color cyan --user-host-color black:cyan --venv-color black:green --dir-color cyan --branch-color green --head-color gray --status-color red"
 ~~~
 
 will pass the listed options to the promptitude command the next time it is
