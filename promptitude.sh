@@ -382,6 +382,7 @@ function promptitude() {
     local SHOW_DIRECTORY=1
     local SHOW_GIT=true
     local SHOW_BASIC=false
+    local PREFIX_LABEL=""
 
     # set up color codes
     local CLEAR=$(_promptitude_get_color_code clear)
@@ -444,6 +445,15 @@ function promptitude() {
             ;;
         --show-long-venv)
             SHOW_VENV=2
+            shift
+            ;;
+        --prefix-label)
+            shift
+            PREFIX_LABEL=$1
+            shift
+            ;;
+        --no-prefix-label)
+            PREFIX_LABEL=""
             shift
             ;;
         --show-short-venv)
@@ -763,7 +773,7 @@ function promptitude() {
     then
         PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
+        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
     fi
 
     # Set.
