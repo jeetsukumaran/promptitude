@@ -350,8 +350,9 @@ function _print_git_state_flags() {
 function _print_virtualenv_long_info() {
     local venv=""
     if [[ -n "$VIRTUAL_ENV" ]]; then
-        # Strip out the path and just leave the env name
         venv="${VIRTUAL_ENV}"
+    elif [[ -n "$CONDA_PREFIX" ]]; then
+        venv="${CONDA_PREFIX}"
     else
         # In case you don't have one activated
         venv=''
@@ -364,6 +365,9 @@ function _print_virtualenv_short_info() {
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
         venv="${VIRTUAL_ENV##*/}"
+    elif [[ -n "$CONDA_PREFIX" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${CONDA_PREFIX##*/}"
     else
         # In case you don't have one activated
         venv=''
@@ -387,6 +391,7 @@ function promptitude() {
     # set up color codes
     local CLEAR=$(_promptitude_get_color_code clear)
     local STY_COLOR=""
+    local PREFIX_LABEL_COLOR=""
     local VENV_COLOR=""
     local SHLVL_COLOR=""
     local PROMPT_COLOR=""
@@ -501,6 +506,15 @@ function promptitude() {
             if [[ $? != 0 ]]
             then
                 echo $PROMPT_COLOR
+                return -1
+            fi
+            shift 2
+            ;;
+        --prefix-label-color)
+            PREFIX_LABEL_COLOR=$(_promptitude_get_color_code $(echo $2 | awk -F: '{print $1" "$2" "$3}'))
+            if [[ $? != 0 ]]
+            then
+                echo $PREFIX_LABEL_COLOR
                 return -1
             fi
             shift 2
@@ -773,7 +787,7 @@ function promptitude() {
     then
         PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
+        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
     fi
 
     # Set.
