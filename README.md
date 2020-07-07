@@ -9,16 +9,35 @@ Add color, Git status, shell-level, Python environment info, etc., as needed and
 
 ## Installation
 
+### Quick Reference
+
 Source the file `promptitude.sh` in your `~/.bashrc`.
 
-For e.g., if you have cloned this repository in `~/src`:
+### Step-By-Step
 
-    $ cd ~/src
-    $ git clone https://github.com/jeetsukumaran/promptitude.git
+1.  Clone this repository somewhere fairly stable on your system.
 
-then add the following line to your `~/.bashrc`:
+~~~
+$ mkdir -p ~/.local/opt
+$ cd ~/local/opt
+$ git clone https://github.com/jeetsukumaran/promptitude.git
+~~~
 
-    source ~/src/promptitude/promptitude.sh
+2.  Edit your ``~/.bashrc`` file and add the following lines at the end of the file:
+
+~~~
+source ~/local/opt/promptitude/promptitude.sh
+promptitude --prompt-color turquoise \
+    --user-host-color black:grey \
+    --venv-color black:cyan \
+    --dir-color turquoise \
+    --branch-color boldgreen \
+    --head-color grey \
+    --status-color boldlightred
+~~~
+
+3.  And that's it. You should have an awesome prompt with attitude for all your subsequent shell sessions. You can pass the ``promptitude`` command alternative arguments/options to customize the prompt, as per the options below.
+
 
 ## All Options
 
