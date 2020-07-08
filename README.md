@@ -11,7 +11,7 @@ Add color, Git status, shell-level, Python environment info, etc., as needed and
 
 ### Quick Reference
 
-Source the file `promptitude.sh` in your `~/.bashrc`.
+Source the file `promptitude.sh` in your `~/.bashrc` and execute the ``promptitude`` function with appropriate arguments.
 
 ### Step-By-Step
 
