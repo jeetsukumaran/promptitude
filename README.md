@@ -27,13 +27,16 @@ $ git clone https://github.com/jeetsukumaran/promptitude.git
 
 ~~~
 source ~/local/opt/promptitude/promptitude.sh
-promptitude --prompt-color turquoise \
+export PROMPTITUDE_DEFAULT_COMMAND="
+    --prompt-color turquoise \
+    --no-user-host
     --user-host-color black:grey \
     --venv-color black:cyan \
     --dir-color turquoise \
     --branch-color boldgreen \
     --head-color grey \
-    --status-color boldlightred
+    --status-color boldlightred"
+promptitude
 ~~~
 
 3.  And that's it. You should have an awesome prompt with attitude for all your subsequent shell sessions. You can pass the ``promptitude`` command alternative arguments/options to customize the prompt, as per the options below.
