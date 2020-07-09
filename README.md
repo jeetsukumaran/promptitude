@@ -19,14 +19,14 @@ Source the file `promptitude.sh` in your `~/.bashrc` and execute the ``promptitu
 
 ~~~
 $ mkdir -p ~/.local/opt
-$ cd ~/local/opt
+$ cd ~/.local/opt
 $ git clone https://github.com/jeetsukumaran/promptitude.git
 ~~~
 
 2.  Edit your ``~/.bashrc`` file and add the following lines at the end of the file:
 
 ~~~
-source ~/local/opt/promptitude/promptitude.sh
+source ~/.local/opt/promptitude/promptitude.sh
 export PROMPTITUDE_DEFAULT_COMMAND="
     --prompt-color turquoise \
     --no-user-host
