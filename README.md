@@ -11,7 +11,7 @@ Add color, Git status, shell-level, Python environment info, etc., as needed and
 
 ### Quick Reference
 
-Source the file `promptitude.sh` in your `~/.bashrc` and execute the ``promptitude`` function with appropriate arguments.
+Source the file `promptitude.bash` in your `~/.bashrc` and execute the ``promptitude`` function with appropriate arguments.
 
 ### Step-By-Step
 
@@ -23,23 +23,27 @@ $ cd ~/.local/opt
 $ git clone https://github.com/jeetsukumaran/promptitude.git
 ~~~
 
-2.  Edit your ``~/.bashrc`` file and add the following lines at the end of the file:
+2.  Edit your ``~/.bashrc`` file and source the `promptitude.bash` script by adding the following lines at the end (or anywhere else):
 
 ~~~
-source ~/.local/opt/promptitude/promptitude.sh
-export PROMPTITUDE_DEFAULT_COMMAND="
+
+# add `promptitude` function definition to the shell
+source ~/.local/opt/promptitude/promptitude.bash
+
+# give the prompt some attitude
+promptitude \
     --prompt-color turquoise \
-    --no-user-host
     --user-host-color black:grey \
     --venv-color black:cyan \
-    --dir-color turquoise \
+    --dir-color boldblack:orange \
     --branch-color boldgreen \
     --head-color grey \
-    --status-color boldlightred"
-promptitude
+    --status-color boldlightred
 ~~~
 
-3.  And that's it. You should have an awesome prompt with attitude for all your subsequent shell sessions. You can pass the ``promptitude`` command alternative arguments/options to customize the prompt, as per the options below.
+3.  And that's it. You should have an awesome prompt with attitude for all your subsequent shell sessions.
+
+4.  Don't like the colors/options? You can pass the ``promptitude`` command alternative arguments/options to customize the prompt, as per the options below.
 
 
 ## All Options
@@ -106,11 +110,24 @@ $
 
 Default command-line options can be set using the environmental variable `$PROMPTITUDE_DEFAULT_COMMAND`.
 
-For example, the following line your "~/.bashrc":
+For example, the following lines in your "~/.bashrc":
 ~~~
-export PROMPTITUDE_DEFAULT_COMMAND="--no-user-host --prompt-color cyan --user-host-color black:cyan --venv-color black:green --dir-color cyan --branch-color green --head-color gray --status-color red"
+# define defaults
+export PROMPTITUDE_DEFAULT_COMMAND="\
+--prompt-color turquoise \
+--user-host-color black:grey \
+--venv-color black:cyan \
+--dir-color boldblack:orange \
+--branch-color boldgreen \
+--head-color grey \
+--status-color boldlightred"
+
+# add `promptitude` function definition to the shell
+source ~/.local/opt/promptitude/promptitude.bash
 ~~~
 
 will pass the listed options to the promptitude command the next time it is
 invoked.
+
+*NOTE*: you must either source the promptitude
 
