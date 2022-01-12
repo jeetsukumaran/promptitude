@@ -23,7 +23,7 @@ $ cd ~/.local/opt
 $ git clone https://github.com/jeetsukumaran/promptitude.git
 ~~~
 
-2.  Edit your ``~/.bashrc`` file and source the `promptitude.bash` script by adding the following lines at the end (or anywhere else):
+2.  Edit your ``~/.bashrc`` file and add the following lines at the end (or anywhere else):
 
 ~~~
 
