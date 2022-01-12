@@ -796,4 +796,5 @@ function promptitude() {
     PS4='+ '
 }
 
+promptitude
 
