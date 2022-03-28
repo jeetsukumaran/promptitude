@@ -810,18 +810,20 @@ function promptitude() {
         echo ${hrstr}
     }
 
-    if [[ $SHOW_UNDERLINE == true ]]
-    then
-        local UNDERLINE="\n$(hr)"
-    else
-        local UNDERLINE=""
-    fi
-
     if [[ $SHOW_OVERLINE == true ]]
     then
-        local OVERLINE="$(hr)\n"
+        local OVERLINE="\n${PROMPT_COLOR}$(hr)${CLEAR}\n"
+        PREFIX_NEWLINE=""
     else
         local OVERLINE=""
+    fi
+
+    if [[ $SHOW_UNDERLINE == true ]]
+    then
+        local UNDERLINE="\n${PROMPT_COLOR}$(hr)${CLEAR}\n"
+        POSTFIX_NEWLINE=""
+    else
+        local UNDERLINE=""
     fi
 
     # final
