@@ -387,6 +387,7 @@ function promptitude() {
     local SHOW_DIRECTORY=1
     local SHOW_GIT=true
     local SHOW_UNDERLINE=false
+    local SHOW_OVERLINE=false
     local SHOW_BASIC=false
     local PREFIX_LABEL=""
 
@@ -505,6 +506,14 @@ function promptitude() {
             ;;
         --no-underline)
             NO_UNDERLINE=false
+            shift
+            ;;
+        --show-overline)
+            SHOW_OVERLINE=true
+            shift
+            ;;
+        --no-overline)
+            NO_OVERLINE=false
             shift
             ;;
         --basic|--none)
@@ -803,9 +812,16 @@ function promptitude() {
 
     if [[ $SHOW_UNDERLINE == true ]]
     then
-        local POSTFIX_LINE="\n$(hr)"
+        local UNDERLINE="\n$(hr)"
     else
-        local POSTFIX_LINE=""
+        local UNDERLINE=""
+    fi
+
+    if [[ $SHOW_OVERLINE == true ]]
+    then
+        local OVERLINE="$(hr)\n"
+    else
+        local OVERLINE=""
     fi
 
     # final
@@ -813,7 +829,7 @@ function promptitude() {
     then
         PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${PROMPT_COLOR}${POSTFIX_LINE}${POSTFIX_NEWLINE}\$${CLEAR} "
+        PROMPTSTR="${PREFIX_NEWLINE}${OVERLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${PROMPT_COLOR}${UNDERLINE}${POSTFIX_NEWLINE}\$${CLEAR} "
     fi
 
     # Set.
