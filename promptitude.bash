@@ -58,13 +58,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-function hr() {
-  local start=$'\e(0' end=$'\e(B' line='qqqqqqqqqqqqqqqq'
-  local cols=${COLUMNS:-$(tput cols)}
-  while ((${#line} < cols)); do line+="$line"; done
-  printf '%s%s%s\n' "$start" "${line:0:cols}" "$end"
-}
-
 function _promptitude_get_color_code() {
     if [[ -z $1 ]]
     then
@@ -803,21 +796,24 @@ function promptitude() {
 
     # add a underline
     # HR="\[\e[1;33m\]┌$(eval printf %.0s─ '{2..'"${COLUMNS:-$(tput cols)}"\}; echo)\n├─ \u@\h \w\n└─ \[\e[1;36m\][\@ \d] \$\[\e[m\] "
-    HR='$(eval printf %.0s─ '"'"'{2..'"'"'"${COLUMNS:-$(tput cols)}"\}; echo)'
-    # if [[ $SHOW_UNDERLINE == true ]]
-    # then
-    #     local POSTFIX_LINE='$(printf "%*s\n\" "${COLUMNS:-$(tput cols)}" "" | tr " " -)'
-    # else
-    #     local POSTFIX_LINE=""
-    # fi
-    # local POSTFIX_LINE='$(printf "%*s\n" "${COLUMNS:-$(tput cols)}" "" | tr " " _)'
+    function hr() {
+        local hrstr='$(eval printf %.0s─ '"'"'{2..'"'"'"${COLUMNS:-$(tput cols)}"\}; echo)'
+        echo ${hrstr}
+    }
+
+    if [[ $SHOW_UNDERLINE == true ]]
+    then
+        local POSTFIX_LINE="\n$(hr)"
+    else
+        local POSTFIX_LINE=""
+    fi
 
     # final
     if [[ -z $PROMPTSTR ]]
     then
         PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${PROMPT_COLOR}\n${HR}\n\$${CLEAR} "
+        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${PROMPT_COLOR}${POSTFIX_LINE}${POSTFIX_NEWLINE}\$${CLEAR} "
     fi
 
     # Set.
