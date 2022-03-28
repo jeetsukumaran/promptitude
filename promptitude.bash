@@ -22,6 +22,7 @@
 #      --branch-color darkgreen \
 #      --head-color darkgray  \
 #      --status-color darkred \
+#      --underline \
 #
 #
 # Default command-line options can be set using the environmental variable
@@ -385,6 +386,8 @@ function promptitude() {
     local SHOW_USERHOST=true
     local SHOW_DIRECTORY=1
     local SHOW_GIT=true
+    local SHOW_UNDERLINE=false
+    local SHOW_OVERLINE=false
     local SHOW_BASIC=false
     local PREFIX_LABEL=""
 
@@ -497,6 +500,22 @@ function promptitude() {
             SHOW_GIT=false
             shift
             ;;
+        --show-underline)
+            SHOW_UNDERLINE=true
+            shift
+            ;;
+        --no-underline)
+            NO_UNDERLINE=false
+            shift
+            ;;
+        --show-overline)
+            SHOW_OVERLINE=true
+            shift
+            ;;
+        --no-overline)
+            NO_OVERLINE=false
+            shift
+            ;;
         --basic|--none)
             SHOW_BASIC=true
             shift
@@ -595,6 +614,8 @@ function promptitude() {
             echo "  --show-long-venv          ... show path to Python virtual environment (long path)"
             echo "  --no-git                  ... do not show git branch, head and status"
             echo "  --show-git                ... show git branch, head and status"
+            echo "  --no-underline            ... do not show underline"
+            echo "  --show-underline          ... show underline"
             echo "  --none                    ... minimal prompt (no info)"
             echo " "
             echo "Color Options (see '--help-colors' for how to specify colors):"
@@ -782,12 +803,35 @@ function promptitude() {
         local POSTFIX_NEWLINE=""
     fi
 
+    # add a underline
+    # HR="\[\e[1;33m\]┌$(eval printf %.0s─ '{2..'"${COLUMNS:-$(tput cols)}"\}; echo)\n├─ \u@\h \w\n└─ \[\e[1;36m\][\@ \d] \$\[\e[m\] "
+    function hr() {
+        local hrstr='$(eval printf %.0s─ '"'"'{2..'"'"'"${COLUMNS:-$(tput cols)}"\}; echo)'
+        echo ${hrstr}
+    }
+
+    if [[ $SHOW_OVERLINE == true ]]
+    then
+        local OVERLINE="\n${PROMPT_COLOR}$(hr)${CLEAR}\n"
+        PREFIX_NEWLINE=""
+    else
+        local OVERLINE=""
+    fi
+
+    if [[ $SHOW_UNDERLINE == true ]]
+    then
+        local UNDERLINE="\n${PROMPT_COLOR}$(hr)${CLEAR}\n"
+        POSTFIX_NEWLINE=""
+    else
+        local UNDERLINE=""
+    fi
+
     # final
     if [[ -z $PROMPTSTR ]]
     then
         PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
+        PROMPTSTR="${PREFIX_NEWLINE}${OVERLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${PROMPT_COLOR}${UNDERLINE}${POSTFIX_NEWLINE}\$${CLEAR} "
     fi
 
     # Set.
