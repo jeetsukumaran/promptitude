@@ -22,6 +22,7 @@
 #      --branch-color darkgreen \
 #      --head-color darkgray  \
 #      --status-color darkred \
+#      --underline \
 #
 #
 # Default command-line options can be set using the environmental variable
@@ -56,6 +57,13 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+
+function hr() {
+  local start=$'\e(0' end=$'\e(B' line='qqqqqqqqqqqqqqqq'
+  local cols=${COLUMNS:-$(tput cols)}
+  while ((${#line} < cols)); do line+="$line"; done
+  printf '%s%s%s\n' "$start" "${line:0:cols}" "$end"
+}
 
 function _promptitude_get_color_code() {
     if [[ -z $1 ]]
@@ -385,6 +393,7 @@ function promptitude() {
     local SHOW_USERHOST=true
     local SHOW_DIRECTORY=1
     local SHOW_GIT=true
+    local SHOW_UNDERLINE=false
     local SHOW_BASIC=false
     local PREFIX_LABEL=""
 
@@ -497,6 +506,14 @@ function promptitude() {
             SHOW_GIT=false
             shift
             ;;
+        --show-underline)
+            SHOW_UNDERLINE=true
+            shift
+            ;;
+        --no-underline)
+            NO_UNDERLINE=false
+            shift
+            ;;
         --basic|--none)
             SHOW_BASIC=true
             shift
@@ -595,6 +612,8 @@ function promptitude() {
             echo "  --show-long-venv          ... show path to Python virtual environment (long path)"
             echo "  --no-git                  ... do not show git branch, head and status"
             echo "  --show-git                ... show git branch, head and status"
+            echo "  --no-underline            ... do not show underline"
+            echo "  --show-underline          ... show underline"
             echo "  --none                    ... minimal prompt (no info)"
             echo " "
             echo "Color Options (see '--help-colors' for how to specify colors):"
@@ -782,12 +801,23 @@ function promptitude() {
         local POSTFIX_NEWLINE=""
     fi
 
+    # add a underline
+    # HR="\[\e[1;33m\]┌$(eval printf %.0s─ '{2..'"${COLUMNS:-$(tput cols)}"\}; echo)\n├─ \u@\h \w\n└─ \[\e[1;36m\][\@ \d] \$\[\e[m\] "
+    HR='$(eval printf %.0s─ '"'"'{2..'"'"'"${COLUMNS:-$(tput cols)}"\}; echo)'
+    # if [[ $SHOW_UNDERLINE == true ]]
+    # then
+    #     local POSTFIX_LINE='$(printf "%*s\n\" "${COLUMNS:-$(tput cols)}" "" | tr " " -)'
+    # else
+    #     local POSTFIX_LINE=""
+    # fi
+    # local POSTFIX_LINE='$(printf "%*s\n" "${COLUMNS:-$(tput cols)}" "" | tr " " _)'
+
     # final
     if [[ -z $PROMPTSTR ]]
     then
         PROMPTSTR="${PREFIX_NEWLINE}${POSTFIX_NEWLINE}\$ "
     else
-        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${POSTFIX_NEWLINE}${PROMPT_COLOR}\$${CLEAR} "
+        PROMPTSTR="${PREFIX_NEWLINE}$CLEAR$SHLVLTAG$PREFIX_LABEL_COLOR$PREFIX_LABEL$CLEAR$VENVTAG${PROMPT_COLOR}[$CLEAR$PROMPTSTR$PROMPT_COLOR]${WRAP}${WHICHPYTHON}${CLEAR}${PROMPT_COLOR}\n${HR}\n\$${CLEAR} "
     fi
 
     # Set.
