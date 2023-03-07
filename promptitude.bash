@@ -381,7 +381,7 @@ function promptitude() {
     # display indicators
     local PREFIX_NEWLINE=true
     local POSTFIX_NEWLINE=false
-    local SHOW_SHELL_LEVEL=true
+    local SHOW_SHELL_LEVEL=false
     local SHOW_VENV=1
     local SHOW_USERHOST=true
     local SHOW_DIRECTORY=1
