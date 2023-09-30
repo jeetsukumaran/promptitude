@@ -550,6 +550,15 @@ function promptitude() {
             fi
             shift 2
             ;;
+        --shlvl-color)
+            VENV_COLOR=$(_promptitude_get_color_code $(echo $2 | awk -F: '{print $1" "$2" "$3}'))
+            if [[ $? != 0 ]]
+            then
+                echo $SHLVL_COLOR
+                return -1
+            fi
+            shift 2
+            ;;
         --user-host-color|--user-color)
             USER_HOST_COLOR=$(_promptitude_get_color_code $(echo $2 | awk -F: '{print $1" "$2" "$3}'))
             if [[ $? != 0 ]]
