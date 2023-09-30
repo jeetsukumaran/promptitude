@@ -103,6 +103,9 @@ function _promptitude_get_color_code() {
         darkgrey)
             COLOR_CODE=$COLOR_CODE"0;90"
             ;;
+        white)
+            COLOR_CODE=$COLOR_CODE"0;37"
+            ;;
         lightred)
             COLOR_CODE=$COLOR_CODE"0;91"
             ;;
